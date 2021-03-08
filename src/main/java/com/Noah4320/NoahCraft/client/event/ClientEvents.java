@@ -1,4 +1,4 @@
-package com.Noah4320.NoahCraft;
+package com.Noah4320.NoahCraft.client.event;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -9,7 +9,7 @@ import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-public class EventHandler {
+public class ClientEvents {
 
 	@SubscribeEvent
 	public static void pickUpItem(EntityItemPickupEvent event) {
@@ -35,4 +35,5 @@ public class EventHandler {
 		   renderer.drawStringWithShadow(event.getMatrixStack(), "test", 0, 0, TextFormatting.WHITE.getColor());
 
 	}
+	
 }
