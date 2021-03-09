@@ -1,5 +1,7 @@
 package com.Noah4320.NoahCraft.client.event;
 
+import com.Noah4320.NoahCraft.client.render.screen.TextGui;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.text.TextFormatting;
@@ -19,6 +21,9 @@ public class ClientEvents {
 	@SubscribeEvent
 	public static void guiTest(PlayerInteractEvent.RightClickItem event) {
 		System.out.println("Right clicked " + event.getHand().name());
+		
+		Minecraft mc = Minecraft.getInstance();
+		mc.displayGuiScreen(new TextGui());
 	}
 	
 	@SubscribeEvent
