@@ -12,6 +12,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ClientEvents {
+	
+	public static String versionText = "Minecraft Beta 1.5_01";
 
 	@SubscribeEvent
 	public static void pickUpItem(EntityItemPickupEvent event) {
@@ -36,8 +38,9 @@ public class ClientEvents {
 	
 	@SubscribeEvent
 	public static void renderText(RenderGameOverlayEvent.Post event) {
-		   FontRenderer renderer = Minecraft.getInstance().fontRenderer;
-		   renderer.drawStringWithShadow(event.getMatrixStack(), "test", 0, 0, TextFormatting.WHITE.getColor());
+		Minecraft mc = Minecraft.getInstance();
+		FontRenderer renderer = mc.fontRenderer;
+		renderer.drawStringWithShadow(event.getMatrixStack(), versionText, 2, 2, 0xFFFFFF);
 
 	}
 	
