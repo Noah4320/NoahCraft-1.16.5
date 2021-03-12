@@ -54,7 +54,7 @@ public class TextGui extends Screen{
 		this.setListener(this.versionTextField);
 		this.versionTextField.render(matrixStack, mouseX, mouseY, partialTicks);
 		this.confirmBtn.render(matrixStack, mouseX, mouseY, partialTicks);
-		renderBackground(matrixStack);
+		//renderBackground(matrixStack);
 		//mc.getTextureManager().bindTexture(guiImage);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 	}

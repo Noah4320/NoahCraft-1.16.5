@@ -29,7 +29,7 @@ public class NoahCraft
         MinecraftForge.EVENT_BUS.register(ClientEvents.class);
         MinecraftForge.EVENT_BUS.register(KeybindingsEvent.class);
         
-        guiKeybind = new KeyBinding("Text Gui", 293, "Gui");
+        guiKeybind = new KeyBinding("Modify Text", 293, "key.categories.gameplay");
 		ClientRegistry.registerKeyBinding(guiKeybind);
     }
 

@@ -4,6 +4,9 @@ import com.Noah4320.NoahCraft.NoahCraft;
 import com.Noah4320.NoahCraft.client.render.screen.TextGui;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
+import net.minecraft.client.gui.screen.IngameMenuScreen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -15,12 +18,10 @@ public class KeybindingsEvent {
 	public static void onEvent(KeyInputEvent event) {
 
 		KeyBinding guiKeybind = NoahCraft.guiKeybind;
+		Minecraft mc = Minecraft.getInstance();
 		
-		if (event.getKey() == 293) {
-			
-			Minecraft mc = Minecraft.getInstance();
+		if (event.getKey() == guiKeybind.getKey().getKeyCode() && mc.currentScreen == null ) {		
 			mc.displayGuiScreen(new TextGui());
-			
 		}
 	}
 }
