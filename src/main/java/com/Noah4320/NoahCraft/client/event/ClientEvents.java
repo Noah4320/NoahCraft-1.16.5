@@ -1,62 +1,60 @@
 package com.Noah4320.NoahCraft.client.event;
 
-import java.util.Random;
 
+import java.util.List;
+
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.entity.passive.PigEntity;
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.item.Items;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.player.ArrowNockEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ClientEvents {
 	
 	public static String versionText = "Minecraft Beta 1.5_01";
+	public static boolean isPartying = false;
+
 
 	@SubscribeEvent
-	public static void pickUpItem(EntityItemPickupEvent event) {
-		System.out.println("Picked up " + event.getItem().getDisplayName());
-	}
-	
-	@SubscribeEvent
-	public static void guiTest(PlayerInteractEvent.RightClickItem event) {
-		System.out.println("Right clicked " + event.getHand().name());
-	}
-	
-	@SubscribeEvent
-	public static void getShot(ArrowNockEvent event) {
-		System.out.println("Nocked!!!");
-		Minecraft mc = Minecraft.getInstance();
-		mc.player.sendChatMessage("You better watch out!");
-	
-	}
-	
-	@SubscribeEvent
-	public static void dropDiamonds(LivingDeathEvent event) {
-		if (event.getEntity() instanceof PigEntity) {
+	public static void partyTime(PlayerInteractEvent.RightClickBlock event) {
+		
+		BlockState blockState = event.getWorld().getBlockState(event.getPos());
+		Block block = blockState.getBlock();
+		
+		if (event.getItemStack().getItem() == Items.MUSIC_DISC_CAT && block == Blocks.JUKEBOX) {
+			isPartying = true;
+			Minecraft mc = Minecraft.getInstance();
+			List<CreatureEntity> creatures = event.getPlayer().world.getEntitiesWithinAABB(CreatureEntity.class, new AxisAlignedBB(mc.player.getPositionVec().add(-100, -100, -100), mc.player.getPositionVec().add(100, 100, 100)));
 			
-			Random random = new Random();
-			
-			event.getEntity().entityDropItem(Items.DIAMOND, random.nextInt(3));
-			
+			for (CreatureEntity creature : creatures) {
+				creature.setCustomName(new StringTextComponent("WORKS"));
+				creature.getJumpController().setJumping();
+			}
+		} else if (event.getItemStack().getItem() != Items.MUSIC_DISC_CAT && block == Blocks.JUKEBOX) {
+			isPartying = false;
 		}
 	}
 	
+	
 	@SubscribeEvent
-	public static void mobChanges(EntityJoinWorldEvent event) {
-		
-		if (event.getEntity() instanceof CowEntity) {
-			CowEntity cow = (CowEntity) event.getEntity();
-			cow.setJumping(true);			
-			//cow.moveVertical = 200f;
+	public static void whenJumpFinished(LivingFallEvent event) {
+		if (event.getEntity() instanceof CreatureEntity) {
+			CreatureEntity creature = (CreatureEntity) event.getEntity();
+			if (isPartying) {	
+				creature.getJumpController().setJumping();
+			} else {
+				creature.getJumpController().tick();
+			}
+			
 		}
-		
 	}
 	
 	@SubscribeEvent
