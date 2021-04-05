@@ -3,7 +3,6 @@ package com.Noah4320.NoahCraft.client.render.screen;
 import com.Noah4320.NoahCraft.NoahCraft;
 import com.Noah4320.NoahCraft.client.event.ClientEvents;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
