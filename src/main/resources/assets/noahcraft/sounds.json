@@ -1,0 +1,13 @@
+{
+	"item.party_disc": {
+		"category": "item",
+		"subtitle": "item.party_disc.sub",
+		"sounds": [
+			{
+				"name": "noahcraft:item/californication",
+				"stream": true
+			}
+		]
+	}
+	
+}

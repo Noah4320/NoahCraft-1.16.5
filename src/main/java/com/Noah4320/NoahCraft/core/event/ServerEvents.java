@@ -2,6 +2,8 @@ package com.Noah4320.NoahCraft.core.event;
 
 import java.util.List;
 
+import com.Noah4320.NoahCraft.core.init.ItemInit;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -9,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -19,21 +22,23 @@ public class ServerEvents {
 	public static Minecraft mc = Minecraft.getInstance();
 	private static List<AnimalEntity> creatures;
 	private static boolean isPartying = false;
+	private static BlockPos partyPos;
 
 
 	@SubscribeEvent
 	public static void partyTime(PlayerInteractEvent.RightClickBlock event) {
 		
-		BlockState blockState = event.getWorld().getBlockState(event.getPos());
+		partyPos = event.getPos();
+		BlockState blockState = event.getWorld().getBlockState(partyPos);
 		Block block = blockState.getBlock();
 		
-		if (event.getItemStack().getItem() == Items.MUSIC_DISC_CAT && block == Blocks.JUKEBOX) {			
+		if (event.getItemStack().getItem() == ItemInit.PARTY_MUSIC_DISC.get() && block == Blocks.JUKEBOX) {			
 			creatures = event.getPlayer().world.getEntitiesWithinAABB(AnimalEntity.class, new AxisAlignedBB(mc.player.getPositionVec().add(-100, -100, -100), mc.player.getPositionVec().add(100, 100, 100)));
 			
 			for (AnimalEntity creature : creatures) {
 				creature.setCustomName(new StringTextComponent("PARTYING"));
 				creature.getJumpController().setJumping();
-				creature.getNavigator().setPath(creature.getNavigator().getPathToEntity(mc.player, 0), 1);
+				creature.getNavigator().setPath(creature.getNavigator().getPathToPos(partyPos, 0), 1);
 			}
 			
 			isPartying = true;
@@ -57,7 +62,7 @@ public class ServerEvents {
 		  if (creatures != null && isPartying) {
 			  for (AnimalEntity creature : creatures) {
 					creature.getJumpController().setJumping();
-					creature.getNavigator().setPath(creature.getNavigator().getPathToEntity(mc.player, 0), 1);
+					creature.getNavigator().setPath(creature.getNavigator().getPathToPos(partyPos, 0), 1);
 				}
 		  }
 	}
