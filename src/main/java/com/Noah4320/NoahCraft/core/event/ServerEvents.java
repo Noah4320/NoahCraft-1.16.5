@@ -2,13 +2,18 @@ package com.Noah4320.NoahCraft.core.event;
 
 import java.util.List;
 
+import com.Noah4320.NoahCraft.core.init.EnchantmentInit;
 import com.Noah4320.NoahCraft.core.init.ItemInit;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -23,6 +28,7 @@ public class ServerEvents {
 	private static List<AnimalEntity> creatures;
 	private static boolean isPartying = false;
 	private static BlockPos partyPos;
+	private static BlockPos lastPos;
 
 
 	@SubscribeEvent
@@ -58,13 +64,36 @@ public class ServerEvents {
 	}
 	
 	@SubscribeEvent
-	public static void waitASec(final TickEvent.ServerTickEvent event) {
+	public static void worldTicks(TickEvent.WorldTickEvent event) {
 		  if (creatures != null && isPartying) {
 			  for (AnimalEntity creature : creatures) {
 					creature.getJumpController().setJumping();
 					creature.getNavigator().setPath(creature.getNavigator().getPathToPos(partyPos, 0), 1);
 				}
 		  }
+		  
+		  List<? extends PlayerEntity> players = event.world.getPlayers();
+		  
+		  if (players != null) {
+			for (PlayerEntity player : players) {
+				BlockState blockState = event.world.getBlockState(player.getPosition().down());
+				Block block = blockState.getBlock();
+				int level = EnchantmentHelper.getMaxEnchantmentLevel(EnchantmentInit.TNT_RUNNER.get(), player);
+				
+					 if (!event.world.isRemote && block != Blocks.AIR && block != Blocks.TNT && level > 0) {
+						  event.world.setBlockState(player.getPosition().down(), Blocks.TNT.getDefaultState());
+						  lastPos = player.getPosition();
+					} 
+					 
+					 if (!event.world.isRemote && block == Blocks.TNT && lastPos != player.getPosition() && level > 0) {
+						Entity tnt = EntityType.TNT.create(event.world);
+						tnt.setPosition(player.getPosX(), player.getPosY(), player.getPosZ());
+						event.world.addEntity(tnt);
+						
+					}
+			}
+		  }
+		  
 	}
-	
+
 }

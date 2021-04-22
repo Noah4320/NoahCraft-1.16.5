@@ -11,8 +11,8 @@ import org.apache.logging.log4j.Logger;
 import com.Noah4320.NoahCraft.client.event.ClientEvents;
 import com.Noah4320.NoahCraft.client.event.KeybindingsEvent;
 import com.Noah4320.NoahCraft.core.event.ServerEvents;
+import com.Noah4320.NoahCraft.core.init.EnchantmentInit;
 import com.Noah4320.NoahCraft.core.init.ItemInit;
-import com.Noah4320.NoahCraft.core.init.SoundInit;
 
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -30,14 +30,13 @@ public class NoahCraft
         bus.addListener(this::setup);
 
         ItemInit.ITEMS.register(bus);
+        EnchantmentInit.ENCHANHTMENTS.register(bus);
         
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(ClientEvents.class);
         MinecraftForge.EVENT_BUS.register(ServerEvents.class);
         MinecraftForge.EVENT_BUS.register(KeybindingsEvent.class);
-        MinecraftForge.EVENT_BUS.register(ItemInit.class);
-        MinecraftForge.EVENT_BUS.register(SoundInit.class);
         
         
         guiKeybind = new KeyBinding("Modify Text", 293, "key.categories.gameplay");
