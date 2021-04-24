@@ -8,7 +8,6 @@ public class PartyMusicDisc extends MusicDiscItem {
 	@SuppressWarnings("deprecation")
 	public PartyMusicDisc(int comparatorValueIn, SoundEvent soundIn, Properties builder) {
 		super(comparatorValueIn, soundIn, builder);
-		// TODO Auto-generated constructor stub
 	}
 
 }
