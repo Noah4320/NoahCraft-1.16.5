@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import com.Noah4320.NoahCraft.client.event.ClientEvents;
 import com.Noah4320.NoahCraft.client.event.KeybindingsEvent;
 import com.Noah4320.NoahCraft.core.event.ServerEvents;
-import com.Noah4320.NoahCraft.core.gameplay.GlobalLootModifiers;
 import com.Noah4320.NoahCraft.core.init.EnchantmentInit;
 import com.Noah4320.NoahCraft.core.init.ItemInit;
 
@@ -32,7 +31,6 @@ public class NoahCraft
 
         ItemInit.ITEMS.register(bus);
         EnchantmentInit.ENCHANHTMENTS.register(bus);
-        GlobalLootModifiers.init(bus);
         
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
