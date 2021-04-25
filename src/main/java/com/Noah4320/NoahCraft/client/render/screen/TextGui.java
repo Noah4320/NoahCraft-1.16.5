@@ -2,6 +2,7 @@ package com.Noah4320.NoahCraft.client.render.screen;
 
 import com.Noah4320.NoahCraft.NoahCraft;
 import com.Noah4320.NoahCraft.client.event.ClientEvents;
+import com.Noah4320.NoahCraft.config.CustomConfig;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.client.Minecraft;
@@ -36,6 +37,7 @@ public class TextGui extends Screen{
 			@Override
 			public void onPress(Button p_onPress_1_) {
 				ClientEvents.versionText = versionTextField.getText();
+				CustomConfig.write(versionTextField.getText());
 				mc.currentScreen.closeScreen();	
 			}
 		});
