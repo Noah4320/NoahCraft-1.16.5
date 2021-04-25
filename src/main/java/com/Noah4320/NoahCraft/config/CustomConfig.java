@@ -15,18 +15,15 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.FMLConfig;
 import net.minecraftforge.fml.loading.FMLPaths;
 
-@Mod(NoahCraft.MOD_ID)
+@Mod.EventBusSubscriber
 public class CustomConfig {
 
-	public String path;
-	public String name;
-	private static String absolutePath;
+	private static String path = FMLPaths.GAMEDIR.get().resolve(FMLConfig.defaultConfigPath()).toString();
+	private static String name = "Noahcraft.txt";
+	private static String absolutePath = path + File.separatorChar + name;
 	
 	
 	public CustomConfig() {
-		path = FMLPaths.GAMEDIR.get().resolve(FMLConfig.defaultConfigPath()).toString();
-		name = "Noahcraft.txt";
-		absolutePath = path + File.separatorChar + name;
 		read();
 		
 	}
