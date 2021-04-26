@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import com.Noah4320.NoahCraft.NoahCraft;
+import com.Noah4320.NoahCraft.client.event.ClientEvents;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.Mod;
@@ -39,11 +40,14 @@ public class CustomConfig {
 	}
 	
 	
-	private void read() {
+	public static String read() {
 		NoahCraft.LOGGER.info("Reading config..");
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(absolutePath));
 			String line = reader.readLine();
+			ClientEvents.versionText = line;
+			reader.close();
+			return line;
 		} catch (FileNotFoundException e) {
 			NoahCraft.LOGGER.info("No config file found. Creating file at: " + absolutePath);
 			File file = new File(absolutePath);
@@ -57,6 +61,9 @@ public class CustomConfig {
 		} catch (IOException e) {
 			NoahCraft.LOGGER.info("Unexpected config reading error");
 		}
+	
+	return "";
 	}
+	
 	
 }
