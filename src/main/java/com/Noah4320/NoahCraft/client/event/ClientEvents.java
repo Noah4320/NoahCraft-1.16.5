@@ -13,7 +13,7 @@ public class ClientEvents {
 	public static String versionText = CustomConfig.read();
 	
 	@SubscribeEvent
-	public static void renderText(RenderGameOverlayEvent.Post event) {
+	public static void renderText(RenderGameOverlayEvent.Text event) {
 		Minecraft mc = Minecraft.getInstance();
 		FontRenderer renderer = mc.fontRenderer;
 		renderer.drawStringWithShadow(event.getMatrixStack(), versionText, 2, 2, 0xFFFFFF);
